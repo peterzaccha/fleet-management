@@ -1,0 +1,241 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "fleet-management",
+    "version": "1.0",
+    "contact": {
+      "name": "Peter Zaccha",
+      "email": "peterzaccha@outlook.com",
+      "url": "https://github.com/peterzaccha"
+    },
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://fleet-management.develop/api",
+      "description": "local"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "operationId": "post-auth-login",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Get api token",
+        "security": [],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/json"
+              ],
+              "default": "application/json",
+              "example": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "description": "application/json",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              },
+              "examples": {}
+            }
+          },
+          "description": "Provide Email & Password"
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "summary": "Me",
+        "responses": {},
+        "operationId": "get-auth-me",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Get current auth user",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "enum": [
+                "application/json"
+              ],
+              "example": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "description": "application/json",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "Token": []
+          }
+        ]
+      }
+    },
+    "/trips/book": {
+      "post": {
+        "summary": "Book a Trip",
+        "operationId": "post-trips-book",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Book a Trip",
+        "security": [
+          {
+            "Token": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "application/json",
+              "enum": [
+                "application/json"
+              ],
+              "default": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "number_of_seats": {
+                    "type": "integer",
+                    "maximum": 12,
+                    "minimum": 1
+                  },
+                  "trip_id": {
+                    "type": "integer"
+                  },
+                  "from_id": {
+                    "type": "integer"
+                  },
+                  "to_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "number_of_seats",
+                  "trip_id",
+                  "from_id",
+                  "to_id"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [
+          "Trip"
+        ]
+      }
+    },
+    "/trips/available": {
+      "get": {
+        "summary": "Available Trips",
+        "tags": [
+          "Trip"
+        ],
+        "responses": {},
+        "operationId": "get-trips-available",
+        "description": "Get Available Trips",
+        "security": [
+          {
+            "Token": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "default": "application/json",
+              "enum": [
+                "application/json"
+              ],
+              "example": "application/json"
+            },
+            "in": "header",
+            "name": "Accept",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "from",
+            "description": "City id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "to",
+            "description": "City id",
+            "required": true
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "title": "User",
+        "type": "object",
+        "description": "",
+        "x-examples": {}
+      }
+    },
+    "securitySchemes": {
+      "Token": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

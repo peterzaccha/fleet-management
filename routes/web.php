@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource("cities", CityController::class);
     Route::resource("trips", TripController::class);
+    Route::view("apis-docs", "apis.docs")->name("apis.docs");
 });
 
 require __DIR__ . '/auth.php';

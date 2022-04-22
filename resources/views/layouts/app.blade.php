@@ -16,6 +16,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
         @livewireStyles
+        @stack("styles")
 
     </head>
     <body class="font-sans antialiased">
@@ -23,11 +24,13 @@
             @include('layouts.navigation')
 
             <!-- Page Heading -->
+            @isset($header)
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
+            @endisset
 
             <!-- Page Content -->
             <main>
@@ -35,5 +38,6 @@
             </main>
         </div>
         @livewireScripts
+        @stack("scripts")
     </body>
 </html>

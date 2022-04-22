@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TripController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/auth/me', [AuthController::class, "me"]);
+    Route::post('/trips/book', [TripController::class, 'book']);
+    Route::get('/trips/available', [TripController::class, 'getAvailableSeats']);
 });
 
-Route::get('/trips/book', [TripController::class, 'book']);
-Route::get('/trips/available_seats', [TripController::class, 'getAvailableSeats']);
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/login', [AuthController::class, "login"]);
+    Route::post('/register', [AuthController::class, "register"]);
+});
