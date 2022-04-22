@@ -2,3 +2,5 @@ version: "3"
 services:
     fleet-management:
         image: peterzaccha/fleet-management:latest
+        ports:
+            - "8000:8000"
