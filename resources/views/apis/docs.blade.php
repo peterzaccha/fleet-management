@@ -7,9 +7,11 @@
         spec-url = "/apis/reference/fleet-management.v1.json"
         show-header = 'false'
         show-info = 'false'
-        allow-server-selection = 'false'
-        allow-api-list-style-selection ='false'
+        {{-- allow-server-selection = 'false' --}}
+        {{-- allow-api-list-style-selection ='false' --}}
         primary-color="#818CF8"
+        server-url="{{Request::root()}}/api"
+        default-api-server="{{Request::root()}}/api"
         api-key-name="Authorization"
         api-key-location="header"
         api-key-value="Bearer {{ $token->plainTextToken }}"
