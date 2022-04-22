@@ -37,9 +37,20 @@ class Trip extends Model
 
     public function scopeAvailable(Builder $query, City $from, City $to)
     {
-        return $query->whereHas("cities", function (Builder $builder) use ($from, $to) {
-            $builder->where("csities.id", $from->id)->orWhere("cities.id", $to->id);
-        }, "=", 2);
+        // so every trip has a path that its repesented in these form
+        // for example if trip going from Alex to Cairo to Giza the form would look like this
+        // -<ALEX_ID>-<EMPTY_SEATS_IN_ALEX>--<CAIRO_ID>-<EMPTY_...>--<GIZA_ID>-<EMPTY_...>-
+        // the empty seats represented as an ascci character from @ to L
+        // @ meaning there is no empty seats
+        // A meaning there is one empty seat
+        // ...
+        // L meaning there is 12 empty seats
+
+        // finaly the purpose of all of this is to make the search query
+        // for finding the available trips from start point to an end point
+        // as simple as this :)
+        return $query->where("path", "like", "%-" . $from->id . "-%-" . $to->id . "-%")
+            ->where("path", "not like", "%-" . $from->id . "-%@%-" . $to->id . "-%-");
     }
 
     public function bookings()
