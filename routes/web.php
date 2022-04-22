@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource("cities", CityController::class);
     Route::resource("trips", TripController::class);
     Route::resource("bookings", BookingController::class);
+    Route::resource("users", UserController::class);
     Route::view("apis-docs", "apis.docs")->name("apis.docs");
 });
 
