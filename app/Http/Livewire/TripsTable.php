@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Booking;
 use App\Models\Trip;
 use Livewire\Component;
 
@@ -30,6 +31,8 @@ class TripsTable extends DataTableComponent
             Column::make('Cities', 'id')
                 ->collapseOnTablet()
                 ->view("trips.cities"),
+            Column::make('Bookings', 'id')
+                ->label(fn ($row) => Booking::whereTripId($row->id)->count()),
             LinkColumn::make("Edit")
                 ->title(fn ($row) => "Edit")
                 ->location(function ($row) {

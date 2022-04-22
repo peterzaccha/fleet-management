@@ -51,7 +51,7 @@ class TripController extends Controller
         abort_if($availableSeats < $requestedSeats, 406, "This Trip dose not have $requestedSeats seats");
 
         DB::beginTransaction(function () use ($trip, $from, $to, $requestedSeats, $citiesRange, $user) {
-            $booking = Booking::create([
+            Booking::create([
                 'user_id' => $user->id,
                 'trip_id' => $trip->id,
                 'start_id' => $from->id,

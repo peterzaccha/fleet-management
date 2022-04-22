@@ -27,29 +27,6 @@ class TripController extends Controller
     {
         return view('trips.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreTripRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreTripRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Trip  $trip
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Trip $trip)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -58,29 +35,10 @@ class TripController extends Controller
      */
     public function edit(Trip $trip)
     {
+        if ($trip->bookings()->exists()) {
+            return redirect()->back()
+                ->withErrors(["_header" => "You can't update a trip with reservations already made"]);
+        }
         return view('trips.edit', compact('trip'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateTripRequest  $request
-     * @param  \App\Models\Trip  $trip
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateTripRequest $request, Trip $trip)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Trip  $trip
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Trip $trip)
-    {
-        //
     }
 }

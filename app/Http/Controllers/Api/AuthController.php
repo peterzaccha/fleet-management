@@ -22,11 +22,6 @@ class AuthController extends Controller
         return ['user' => $user, 'token' => $token->plainTextToken];
     }
 
-    public function register(Request $request)
-    {
-        return $request->user();
-    }
-
     public function me(Request $request)
     {
         return $request->user();

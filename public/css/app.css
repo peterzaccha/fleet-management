@@ -1076,9 +1076,9 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(238 242 255 / var(--tw-bg-opacity));
 }
-.bg-gray-300 {
+.bg-gray-200 {
   --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 .bg-green-300 {
   --tw-bg-opacity: 1;
@@ -1095,10 +1095,6 @@ select {
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-.bg-gray-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1249,6 +1245,10 @@ select {
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
+}
+.text-9xl {
+  font-size: 8rem;
+  line-height: 1;
 }
 .font-medium {
   font-weight: 500;
@@ -1830,10 +1830,6 @@ select {
     display: none;
   }
 
-  .sm\:h-20 {
-    height: 5rem;
-  }
-
   .sm\:w-auto {
     width: auto;
   }
@@ -1952,8 +1948,8 @@ select {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .md\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .md\:grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
   .md\:items-center {
@@ -1974,14 +1970,6 @@ select {
     --tw-space-x-reverse: 0;
     margin-right: calc(0.5rem * var(--tw-space-x-reverse));
     margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
-  }
-
-  .md\:border-t-0 {
-    border-top-width: 0px;
-  }
-
-  .md\:border-l {
-    border-left-width: 1px;
   }
 
   .md\:p-0 {

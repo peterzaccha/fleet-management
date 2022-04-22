@@ -28,6 +28,7 @@
             <header class="bg-white shadow">
                 <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
+                @error('_header') <span class="text-red-800 text-sm">{{ $message }}</span> @enderror
                 </div>
             </header>
             @endisset

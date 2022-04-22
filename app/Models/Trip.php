@@ -41,4 +41,9 @@ class Trip extends Model
             $builder->where("csities.id", $from->id)->orWhere("cities.id", $to->id);
         }, "=", 2);
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }
