@@ -2,16 +2,17 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Trip;
+use App\Models\Booking;
 use Livewire\Component;
 
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 
-class TripsTable extends DataTableComponent
+class BookingsTable extends DataTableComponent
 {
-    protected $model = Trip::class;
+
+    protected $model = Booking::class;
 
     public function configure(): void
     {
@@ -24,16 +25,19 @@ class TripsTable extends DataTableComponent
             Column::make('Id')
                 ->sortable()
                 ->searchable(),
-            Column::make('Name')
+            Column::make('User', 'user.name')
                 ->sortable()
                 ->searchable(),
-            Column::make('Cities', 'id')
-                ->collapseOnTablet()
-                ->view("trips.cities"),
+            Column::make('From', 'start_id')
+                ->collapseOnMobile()
+                ->view("bookings.city"),
+            Column::make('To', 'end_id')
+                ->collapseOnMobile()
+                ->view("bookings.city"),
             LinkColumn::make("Edit")
                 ->title(fn ($row) => "Edit")
                 ->location(function ($row) {
-                    return route("trips.edit", $row);
+                    return route("cities.edit", $row);
                 }),
         ];
     }

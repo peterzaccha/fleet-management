@@ -29,6 +29,7 @@ class TripController extends Controller
     {
         $from = City::findOrFail($request->from);
         $to = City::findOrFail($request->to);
+        $user = $request->user();
 
         $trip = Trip::where("path", "like", "%-" . $from->id . "-%-" . $to->id . "-%")
             ->where("path", "not like", "%-" . $from->id . "-%@%-" . $to->id . "-%-")
@@ -49,9 +50,9 @@ class TripController extends Controller
 
         abort_if($availableSeats < $requestedSeats, 406, "This Trip dose not have $requestedSeats seats");
 
-        DB::beginTransaction(function () use ($trip, $from, $to, $requestedSeats, $citiesRange) {
+        DB::beginTransaction(function () use ($trip, $from, $to, $requestedSeats, $citiesRange, $user) {
             $booking = Booking::create([
-                'user_id' => 1,
+                'user_id' => $user->id,
                 'trip_id' => $trip->id,
                 'start_id' => $from->id,
                 'end_id' => $to->id,
