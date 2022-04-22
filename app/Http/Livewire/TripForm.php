@@ -72,11 +72,8 @@ class TripForm extends Component
 
         $this->trip->name = $this->name;
         $this->trip->save();
+        $this->trip->syncCities($this->cities);
 
-        $this->trip->cities()->sync(
-            collect($this->cities)
-                ->mapWithKeys(fn ($c) => [$c["id"] => ["order" => $c["order"]]])
-        );
 
         return redirect()->route("trips.index");
     }

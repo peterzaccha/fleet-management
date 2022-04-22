@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->text("path")->nullable();
             $table->timestamps();
         });
     }
