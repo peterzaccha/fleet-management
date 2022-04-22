@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
 use App\Http\Requests\GetAvailableSeatsRequest;
+use App\Http\Resources\BookingResource;
+use App\Http\Resources\TripResource;
 use App\Models\Booking;
 use App\Models\City;
 use App\Models\Trip;
@@ -19,10 +21,9 @@ class TripController extends Controller
         $from = City::findOrFail($request->from);
         $to = City::findOrFail($request->to);
 
-        $trips = Trip::where("path", "like", "%-" . $from->id . "-%-" . $to->id . "-%")
-            ->where("path", "not like", "%-" . $from->id . "-%@%-" . $to->id . "-%-");
+        $trips = Trip::available($from, $to)->with('cities')->paginate();
 
-        return $trips->with("cities")->get();
+        return TripResource::collection($trips);
     }
 
     public function book(BookRequest $request)
@@ -31,8 +32,7 @@ class TripController extends Controller
         $to = City::findOrFail($request->to);
         $user = $request->user();
 
-        $trip = Trip::where("path", "like", "%-" . $from->id . "-%-" . $to->id . "-%")
-            ->where("path", "not like", "%-" . $from->id . "-%@%-" . $to->id . "-%-")
+        $trip = Trip::available($from, $to)
             ->where("id", $request->trip_id)
             ->firstOrFail();
 
@@ -50,8 +50,8 @@ class TripController extends Controller
 
         abort_if($availableSeats < $requestedSeats, 406, "This Trip dose not have $requestedSeats seats");
 
-        DB::beginTransaction(function () use ($trip, $from, $to, $requestedSeats, $citiesRange, $user) {
-            Booking::create([
+        $booking = DB::transaction(function () use ($trip, $from, $to, $requestedSeats, $citiesRange, $user) {
+            $booking = Booking::create([
                 'user_id' => $user->id,
                 'trip_id' => $trip->id,
                 'start_id' => $from->id,
@@ -64,8 +64,10 @@ class TripController extends Controller
             );
 
             $trip->generatePath();
+
+            return $booking;
         });
 
-        return ["status" => "success"];
+        return new BookingResource($booking);
     }
 }
