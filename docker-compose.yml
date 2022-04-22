@@ -1,0 +1,4 @@
+version: "3"
+services:
+    fleet-management:
+        image: peterzaccha/fleet-mangement:latest
